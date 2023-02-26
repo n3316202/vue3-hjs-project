@@ -24,6 +24,10 @@
               <!-- <a class="nav-link active" href="#">가위바위보</a> -->
               <router-link class="nav-link active" aria-current="page" to="/rsp">가위바위보</router-link>
             </li>
+            <li class="nav-item">
+              <!-- <a class="nav-link active" href="#">가위바위보</a> -->
+              <router-link class="nav-link active" aria-current="page" to="/job">JobList</router-link>
+            </li>
             <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Link
