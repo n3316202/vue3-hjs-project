@@ -32,9 +32,12 @@
                 {{
                   boards
                 }}
-                <tr v-for="board in boards" :key="board.id">
+                <tr v-for="board in state.boards" :key="board.id">
                   <td>{{ board.bid }}</td>
                   <td>{{ board.bname }}</td>
+                  <td>{{ board.btitle }}</td>
+                  <td>{{ board.bhit }}</td>
+                  <td>{{ board.bdate }}</td>
                 </tr>
                 <!-- {boards && boards.map((board) => (
                 <tr key="{board.bid}">
@@ -76,9 +79,11 @@ export default {
     //   bdate: '',
     //   bhit: ''
     // }
-
     /* board */
-    let boards
+
+    let state = reactive({
+      boards: []
+    })
 
     const getAllBoards = () => {
       console.log('getAllBoards =================')
@@ -86,7 +91,7 @@ export default {
       BoardDataService.getAll()
         .then((response) => {
           //console.log(response.data)
-          boards = reactive(response.data)
+          state.boards = response.data
         })
         .catch((e) => {
           console.log(e)
@@ -94,10 +99,9 @@ export default {
     }
 
     getAllBoards()
-    console.log(boards)
-    //console.log(boards.bname)
+    console.log(state)
 
-    return { boards }
+    return { state }
   }
 }
 </script>
