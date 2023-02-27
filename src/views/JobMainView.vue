@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <header>
+  <div id="prj">
+    <header class="mt-5">
       <div class="title">
         <img src="@/assets/job/heart.svg" alt="site logo" />
         <h1>Hyrule Jobs</h1>
@@ -19,7 +19,6 @@
 <script>
 import { ref } from 'vue'
 import JobList from '@/components/job/JobList.vue'
-import '@/assets/job/global.css'
 
 export default {
   name: 'JobMainView',
@@ -45,6 +44,13 @@ export default {
 </script>
 
 <style scoped>
+@import '@/assets/job/global.css';
+
+#prj {
+  font-family: 'Open Sans';
+  background: #ece6d9;
+}
+
 header {
   text-align: center;
 }
