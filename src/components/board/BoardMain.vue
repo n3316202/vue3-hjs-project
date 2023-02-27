@@ -2,15 +2,14 @@
   <div class="container mt-3">
     <div class="container-fluid">
       <!-- Page Heading -->
-      <h1 class="h3 mb-2 text-gray-800">게시판</h1>
-      <p class="mb-4">
+      <h1 class="text-center h3 mb-2 text-gray-800 mt-4">게시판</h1>
+      <!-- <p class="mb-4">
         DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the{' '}
         <a target="_blank" href="https://datatables.net"> official DataTables documentation </a>
         .
-      </p>
-
+      </p> -->
       <!-- DataTales Example -->
-      <div class="card shadow mb-4">
+      <div class="card shadow mb-4 mt-4">
         <div class="card-header py-3">
           <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
         </div>
@@ -18,7 +17,7 @@
           <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
-                <tr>
+                <tr class="text-center">
                   <th>번호</th>
                   <th>이름</th>
                   <th>제목</th>
@@ -29,15 +28,15 @@
               </thead>
 
               <tbody>
-                {{
-                  boards
-                }}
-                <tr v-for="board in state.boards" :key="board.id">
+                <tr class="text-center" v-for="board in state.boards" :key="board.bid">
                   <td>{{ board.bid }}</td>
                   <td>{{ board.bname }}</td>
                   <td>{{ board.btitle }}</td>
                   <td>{{ board.bhit }}</td>
                   <td>{{ board.bdate }}</td>
+                  <td>
+                    <button class="btn btn-success" :value="board.bid" v-on:click="deleteBoard">삭제</button>
+                  </td>
                 </tr>
                 <!-- {boards && boards.map((board) => (
                 <tr key="{board.bid}">
@@ -98,10 +97,22 @@ export default {
         })
     }
 
+    const deleteBoard = (e) => {
+      console.log('deleteBoard()===============')
+      BoardDataService.remove(e.target.value)
+        .then((response) => {
+          console.log(response.data)
+          getAllBoards()
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
+
     getAllBoards()
     console.log(state)
 
-    return { state }
+    return { state, deleteBoard }
   }
 }
 </script>

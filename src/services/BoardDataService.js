@@ -17,8 +17,9 @@ class BoardDataService {
     return http.put(`/tutorials/${id}`, data)
   }
 
-  delete(id) {
-    return http.delete(`/tutorials/${id}`)
+  remove(id) {
+    console.log(id)
+    return http.delete(`/rboard/${id}`)
   }
 
   deleteAll() {
