@@ -1,9 +1,9 @@
 <template>
-  <body>
+  <div class="prj">
     <RspHeader></RspHeader>
     <RspMain></RspMain>
     <rsp-footer></rsp-footer>
-  </body>
+  </div>
 </template>
 
 <script>
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style scoped>
-body {
+.prj {
   height: 100vh;
   display: flex;
   flex-direction: column;

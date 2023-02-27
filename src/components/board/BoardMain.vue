@@ -78,15 +78,15 @@ export default {
     // }
 
     /* board */
-    let boards = reactive([])
+    let boards
 
     const getAllBoards = () => {
       console.log('getAllBoards =================')
 
       BoardDataService.getAll()
         .then((response) => {
-          boards = response.data
-          console.log(boards)
+          //console.log(response.data)
+          boards = reactive(response.data)
         })
         .catch((e) => {
           console.log(e)
@@ -95,7 +95,7 @@ export default {
 
     getAllBoards()
     console.log(boards)
-    console.log(boards.bname)
+    //console.log(boards.bname)
 
     return { boards }
   }
