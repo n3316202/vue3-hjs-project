@@ -38,31 +38,31 @@
                     <button class="btn btn-success" :value="board.bid" v-on:click="deleteBoard">삭제</button>
                   </td>
                 </tr>
-                <!-- {boards && boards.map((board) => (
-                <tr key="{board.bid}">
-                  <td>{board.bid}</td>
-                  <td>{board.bname}</td>
-
-                  <td>
-                    <router-link class="nav-link active" aria-current="page" to="/rsp">가위바위보</router-link>
-                    <router-link to="/board/" + ${board.bid}>{board.btitle}</router-link>
-                  </td>
-
-                  <td>{board.bdate}</td>
-                  <td>{board.bhit}</td>
-                  <td className="text-center">
-                    <button class="btn btn-success" value="{board.bid}" onClick="{deleteBoard}">삭제</button>
-                  </td>
-                </tr>
-                ))} -->
               </tbody>
             </table>
           </div>
+          <!-- <router-link class="nav-link active" aria-current="page" to="/job">JobList</router-link> -->
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item">
+                <router-link v-if="state.paging.pre" class="page-link" to="/job" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </router-link>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div>
   </div>
-  //
   <!-- /.container-fluid -->
 </template>
 
@@ -72,29 +72,34 @@ import BoardDataService from '@/services/BoardDataService'
 
 export default {
   setup() {
-    // let board = {
-    //   bid: null,
-    //   bname: '',
-    //   bdate: '',
-    //   bhit: ''
-    // }
-    /* board */
-
     let state = reactive({
-      boards: []
+      boards: [],
+      paging: {}
     })
 
     const getAllBoards = () => {
       console.log('getAllBoards =================')
 
-      BoardDataService.getAll()
+      BoardDataService.getPagingList()
         .then((response) => {
-          //console.log(response.data)
-          state.boards = response.data
+          state.boards = response.data.boards
+          state.paging = response.data.page
+
+          console.log(response.data.boards)
+          console.log(response.data.page)
         })
         .catch((e) => {
           console.log(e)
         })
+
+      // BoardDataService.getAll()
+      //   .then((response) => {
+      //     //console.log(response.data)
+      //     state.boards = response.data
+      //   })
+      //   .catch((e) => {
+      //     console.log(e)
+      //   })
     }
 
     const deleteBoard = (e) => {
