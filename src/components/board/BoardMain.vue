@@ -45,17 +45,21 @@
           <nav aria-label="Page navigation example">
             <ul class="pagination">
               <li class="page-item">
-                <router-link v-if="state.paging.pre" class="page-link" to="/job" aria-label="Previous">
+                <router-link v-if="state.paging.pre" class="page-link" :to="makePrevious" aria-label="Previous">
                   <span aria-hidden="true">&laquo;</span>
                 </router-link>
               </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item" v-for="num in range(Number(state.paging.startPage), Number(state.paging.endPage))" :key="num">
+                <router-link :to="makeLink(num)" class="page-link" v-on:click="onClickPaging">{{ num }}</router-link>
+              </li>
+
+              <!-- <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+
               <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
+                <router-link v-if="state.paging.next" class="page-link" :to="makeNext" aria-label="Next">
                   <span aria-hidden="true">&raquo;</span>
-                </a>
+                </router-link>
               </li>
             </ul>
           </nav>
@@ -67,7 +71,7 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import BoardDataService from '@/services/BoardDataService'
 
 export default {
@@ -114,10 +118,47 @@ export default {
         })
     }
 
+    const onClickPaging = (e) => {
+      e.preventDefault()
+      console.log(e.target.pathname)
+      console.log(e.target.search)
+
+      BoardDataService.getPagingList(e.target.pathname, e.target.search)
+        .then((response) => {
+          state.boards = response.data.boards
+          state.paging = response.data.page
+
+          console.log(response.data.boards)
+          console.log(response.data.page)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
+
+    const range = (start, stop, step = 1) => {
+      return Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + i * step)
+    }
+
+    const makePrevious = computed(() => {
+      console.log('makePrevious ..')
+      return '/rboard/list2' + '?pageNum=' + (state.paging.startPage - 1) + '&' + 'amount=' + state.paging.cri.amount
+    })
+
+    const makeNext = computed(() => {
+      console.log('makeNext..')
+      return '/rboard/list2' + '?pageNum=' + (state.paging.endPage + 1) + '&' + 'amount=' + state.paging.cri.amount
+    })
+
+    const makeLink = (i) => {
+      console.log('makeLink..')
+      return '/rboard/list2' + '?pageNum=' + i + '&' + 'amount=' + state.paging.cri.amount
+    }
+
     getAllBoards()
     console.log(state)
 
-    return { state, deleteBoard }
+    return { state, deleteBoard, makePrevious, makeNext, range, makeLink, onClickPaging }
   }
 }
 </script>
