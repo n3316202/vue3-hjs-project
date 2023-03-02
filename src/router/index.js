@@ -24,8 +24,16 @@ const routes = [
     path: '/board',
     name: 'BoardMainView',
     component: () => import(/* webpackChunkName: "boardmainview" */ '../views/BoardMainView.vue')
+  },
+  {
+    path: '/board/:id',
+    name: 'BoardRead',
+    component: () => import(/* webpackChunkName: "boardread" */ '../components/board/BoardRead.vue')
   }
 ]
+
+// path: "/detail/:id",
+// component: Detail,
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

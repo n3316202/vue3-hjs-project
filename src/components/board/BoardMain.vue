@@ -31,7 +31,9 @@
                 <tr class="text-center" v-for="board in state.boards" :key="board.bid">
                   <td>{{ board.bid }}</td>
                   <td>{{ board.bname }}</td>
-                  <td>{{ board.btitle }}</td>
+                  <td>
+                    <router-link :to="'/board/' + board.bid">{{ board.btitle }}</router-link>
+                  </td>
                   <td>{{ board.bhit }}</td>
                   <td>{{ board.bdate }}</td>
                   <td>
@@ -88,15 +90,6 @@ export default {
         .catch((e) => {
           console.log(e)
         })
-
-      // BoardDataService.getAll()
-      //   .then((response) => {
-      //     //console.log(response.data)
-      //     state.boards = response.data
-      //   })
-      //   .catch((e) => {
-      //     console.log(e)
-      //   })
     }
 
     const deleteBoard = (e) => {
@@ -134,8 +127,8 @@ export default {
     }
 
     const makePrevious = computed(() => {
-      console.log('makePrevious ..')
-      return '/rboard/list2' + '?pageNum=' + (state.paging.startPage - 1) + '&' + 'amount=' + state.paging.cri.amount
+      console.log('makePrevious ..' + state.paging.startPage + ':' + state.paging.cri.amount)
+      return '/rboard/list2' + '?pageNum=' + (state.paging.startPage - 10) + '&' + 'amount=' + state.paging.cri.amount
     })
 
     const makeNext = computed(() => {

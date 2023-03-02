@@ -5,12 +5,12 @@ class BoardDataService {
     return http.get('/rboard/list')
   }
 
-  async getPagingList(path = '/rboard/list2', search = '') {
+  getPagingList(path = '/rboard/list2', search = '') {
     return http.get(path + search)
   }
 
   get(id) {
-    return http.get(`/tutorials/${id}`)
+    return http.get(`/rboard/${id}`)
   }
 
   create(data) {
@@ -18,7 +18,7 @@ class BoardDataService {
   }
 
   update(id, data) {
-    return http.put(`/tutorials/${id}`, data)
+    return http.put(`/rboard/${id}`, data)
   }
 
   remove(id) {
