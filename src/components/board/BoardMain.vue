@@ -45,21 +45,14 @@
           <nav aria-label="Page navigation example">
             <ul class="pagination">
               <li class="page-item">
-                <router-link v-if="state.paging.pre" class="page-link" :to="makePrevious" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </router-link>
+                <button v-if="state.paging.pre" class="page-link" :value="makePrevious" aria-label="Previous" @click="onClickPaging">&laquo;</button>
               </li>
-              <li class="page-item" v-for="num in range(Number(state.paging.startPage), Number(state.paging.endPage))" :key="num">
-                <router-link :to="makeLink(num)" class="page-link" v-on:click="onClickPaging">{{ num }}</router-link>
+              <li class="page-item" v-for="num in range(state.paging.startPage, state.paging.endPage)" :key="num">
+                <button :value="makeLink(num)" class="page-link" @click="onClickPaging">{{ num }}</button>
               </li>
-
-              <!-- <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li> -->
 
               <li class="page-item">
-                <router-link v-if="state.paging.next" class="page-link" :to="makeNext" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </router-link>
+                <button v-if="state.paging.next" class="page-link" :value="makeNext" aria-label="Next" @click="onClickPaging">&raquo;</button>
               </li>
             </ul>
           </nav>
@@ -119,11 +112,11 @@ export default {
     }
 
     const onClickPaging = (e) => {
-      e.preventDefault()
-      console.log(e.target.pathname)
-      console.log(e.target.search)
+      console.log(e.target.value)
+      const splits = String(e.target.value).split('?')
+      console.log(splits)
 
-      BoardDataService.getPagingList(e.target.pathname, e.target.search)
+      BoardDataService.getPagingList(splits[0], '?' + splits[1])
         .then((response) => {
           state.boards = response.data.boards
           state.paging = response.data.page

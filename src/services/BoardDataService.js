@@ -5,7 +5,7 @@ class BoardDataService {
     return http.get('/rboard/list')
   }
 
-  getPagingList(path = '/rboard/list2', search = '') {
+  async getPagingList(path = '/rboard/list2', search = '') {
     return http.get(path + search)
   }
 
