@@ -32,7 +32,6 @@
                 <button class="btn btn-success" @click="updateBoard">Update</button>
                 <button
                   class="btn btn-danger"
-                  onClick="{initBoard}"
                   style="
                      {
                       marginleft: '10px';
