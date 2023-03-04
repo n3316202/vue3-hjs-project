@@ -28,7 +28,7 @@ const routes = [
   {
     path: '/board/:id',
     name: 'BoardRead',
-    component: () => import(/* webpackChunkName: "boardread" */ '../components/board/BoardRead.vue')
+    component: () => import(/* webpackChunkName: "boardread" */ '../components/board/BoardStoreRead.vue')
   }
 ]
 

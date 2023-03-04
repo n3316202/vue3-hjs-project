@@ -1,16 +1,16 @@
 <template>
   <div>
-    <BoardMain></BoardMain>
+    <BoardStoreMain></BoardStoreMain>
   </div>
 </template>
 
 <script>
-import BoardMain from '../components/board/BoardMain.vue'
+import BoardStoreMain from '../components/board/BoardStoreMain.vue'
 
 export default {
   name: 'BoardMainView',
   components: {
-    BoardMain
+    BoardStoreMain
   }
 }
 </script>
