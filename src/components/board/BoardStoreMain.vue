@@ -3,12 +3,6 @@
     <div class="container-fluid">
       <!-- Page Heading -->
       <h1 class="text-center h3 mb-2 text-gray-800 mt-4">게시판</h1>
-      <!-- <p class="mb-4">
-        DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the{' '}
-        <a target="_blank" href="https://datatables.net"> official DataTables documentation </a>
-        .
-      </p> -->
-      <!-- DataTales Example -->
       <div class="card shadow mb-4 mt-4">
         <div class="card-header py-3">
           <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
@@ -43,21 +37,56 @@
               </tbody>
             </table>
           </div>
-          <!-- <router-link class="nav-link active" aria-current="page" to="/job">JobList</router-link> -->
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item">
-                <button v-if="paging.pre" class="page-link" :value="makePrevious" aria-label="Previous" @click="onClickPaging">&laquo;</button>
-              </li>
-              <li class="page-item" v-for="num in range(paging.startPage, paging.endPage)" :key="num">
-                <button :value="makeLink(num)" class="page-link" @click="onClickPaging">{{ num }}</button>
-              </li>
+          <div class="d-flex justify-content-center">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item">
+                  <button v-if="paging.pre" class="page-link" :value="makePrevious" aria-label="Previous" @click="onClickPaging">&laquo;</button>
+                </li>
+                <li class="page-item" v-for="num in range(paging.startPage, paging.endPage)" :key="num">
+                  <button :value="makeLink(num)" class="page-link" @click="onClickPaging">{{ num }}</button>
+                </li>
 
-              <li class="page-item">
-                <button v-if="paging.next" class="page-link" :value="makeNext" aria-label="Next" @click="onClickPaging">&raquo;</button>
-              </li>
-            </ul>
-          </nav>
+                <li class="page-item">
+                  <button v-if="paging.next" class="page-link" :value="makeNext" aria-label="Next" @click="onClickPaging">&raquo;</button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <hr />
+          <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">글쓰기</button>
+            <!-- 모달 스타트 -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-sl modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">글쓰기</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button><br />
+                  </div>
+                  <div class="modal-body">
+                    <div class="mb-3">
+                      <label for="recipient-name" class="col-form-label">작성자:</label>
+                      <input type="text" class="form-control" v-model="board.bname" />
+                    </div>
+                    <div class="mb-3">
+                      <label for="recipient-name" class="col-form-label">제목:</label>
+                      <input type="text" class="form-control" v-model="board.btitle" />
+                    </div>
+                    <div class="mb-3">
+                      <label for="message-text" class="col-form-label">내용:</label>
+                      <textarea class="form-control" rows="8" v-model="board.bcontent"></textarea>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="writeBoard">전송</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 모달 엔드 -->
+          </div>
         </div>
       </div>
     </div>
@@ -66,14 +95,19 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, reactive } from 'vue'
 import { useStore } from 'vuex'
 // import BoardDataService from '@/services/BoardDataService'
 
 export default {
   setup() {
-    const store = useStore()
+    let board = reactive({
+      btitle: '',
+      bcontent: '',
+      bname: ''
+    })
 
+    const store = useStore()
     const getBoards = computed(() => {
       console.log('함수 : get 전')
       return store.getters.boards
@@ -111,6 +145,19 @@ export default {
         })
     }
 
+    const writeBoard = async () => {
+      console.log(board)
+      await store
+        .dispatch('writeBoard', board)
+        .then((response) => {
+          console.log(response)
+          store.dispatch('getAllBoards')
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
+
     const onClickPaging = (e) => {
       console.log(e.target.value)
       store.dispatch('onClickPaging', e.target.value)
@@ -135,7 +182,7 @@ export default {
       return '/rboard/list2' + '?pageNum=' + i + '&' + 'amount=' + store.state.paging.cri.amount
     }
 
-    return { paging, boards, getBoards, deleteBoard, makePrevious, makeNext, range, makeLink, onClickPaging }
+    return { board, writeBoard, paging, boards, getBoards, deleteBoard, makePrevious, makeNext, range, makeLink, onClickPaging }
   }
 }
 </script>

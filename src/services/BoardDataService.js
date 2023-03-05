@@ -13,6 +13,10 @@ class BoardDataService {
     return http.get(`/rboard/${id}`)
   }
 
+  write(data) {
+    return http.post(`/rboard/`, data)
+  }
+
   create(data) {
     return http.post('/tutorials', data)
   }

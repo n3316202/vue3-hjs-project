@@ -85,6 +85,19 @@ export default createStore({
         .catch((e) => {
           console.log('업데이트 실패' + e)
         })
+    },
+    async writeBoard(context, payload) {
+      console.log('Wirte 보드' + payload.btitle)
+      console.log('Wirte 보드' + payload.bcontent)
+      console.log('Wirte 보드' + payload.bname)
+
+      await BoardDataService.write(payload)
+        .then((response) => {
+          console.log('Write 성공' + response.data)
+        })
+        .catch((e) => {
+          console.log('Write 실패' + e)
+        })
     }
   }
 })
