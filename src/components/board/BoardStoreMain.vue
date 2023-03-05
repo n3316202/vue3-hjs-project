@@ -57,7 +57,7 @@
           <div class="d-flex justify-content-center">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">글쓰기</button>
             <!-- 모달 스타트 -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" ref="writeModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-sl modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import { computed, onMounted, reactive } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 // import BoardDataService from '@/services/BoardDataService'
 
@@ -106,6 +106,8 @@ export default {
       bcontent: '',
       bname: ''
     })
+
+    const writeModal = ref(null)
 
     const store = useStore()
     const getBoards = computed(() => {
@@ -147,11 +149,22 @@ export default {
 
     const writeBoard = async () => {
       console.log(board)
+      console.log('라이트 모달')
+
+      console.log(writeModal)
+
+      const target = document.querySelector('#exampleModal')
+      console.log(target)
+
       await store
         .dispatch('writeBoard', board)
         .then((response) => {
           console.log(response)
           store.dispatch('getAllBoards')
+
+          board.bcontent = ''
+          board.bname = ''
+          board.btitle = ''
         })
         .catch((e) => {
           console.log(e)
@@ -182,7 +195,7 @@ export default {
       return '/rboard/list2' + '?pageNum=' + i + '&' + 'amount=' + store.state.paging.cri.amount
     }
 
-    return { board, writeBoard, paging, boards, getBoards, deleteBoard, makePrevious, makeNext, range, makeLink, onClickPaging }
+    return { writeModal, board, writeBoard, paging, boards, getBoards, deleteBoard, makePrevious, makeNext, range, makeLink, onClickPaging }
   }
 }
 </script>
