@@ -81,6 +81,7 @@ export default {
 
     const updateBoard = async () => {
       await store.dispatch('updateBoard', state)
+      await store.dispatch('onClickPaging', store.state.current)
       await router.push('/board')
     }
 

@@ -90,8 +90,12 @@ export default {
     })
 
     onMounted(() => {
-      store.dispatch('getAllBoards')
-      console.log('온마운트 : getAllBoards')
+      if (store.state.paging.startPage == undefined) {
+        console.log("()'getAllBoards') 호출")
+        store.dispatch('getAllBoards')
+      }
+
+      console.log('온마운트 호출')
     })
 
     const deleteBoard = async (e) => {

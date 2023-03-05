@@ -3,7 +3,8 @@ import BoardDataService from '@/services/BoardDataService'
 export default createStore({
   state: {
     boards: [],
-    paging: {}
+    paging: {},
+    current: '/rboard/list2?pageNum=1&amount=10'
   },
   getters: {
     getBoards(state) {
@@ -11,6 +12,9 @@ export default createStore({
     },
     getPaging(state) {
       return state.paging
+    },
+    getCurrent(state) {
+      return state.current
     }
   },
   mutations: {
@@ -20,6 +24,9 @@ export default createStore({
     },
     setPaging(state, paging) {
       state.paging = paging
+    },
+    setCurrent(state, current) {
+      state.current = current
     }
   },
   actions: {
@@ -56,6 +63,7 @@ export default createStore({
         .then((response) => {
           context.commit('setBoards', response.data.boards)
           context.commit('setPaging', response.data.page)
+          context.commit('setCurrent', payload)
 
           console.log('')
           console.log(this.state.boards)
