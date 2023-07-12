@@ -31,7 +31,6 @@
       </div>
     </nav>
   </header>
-  <!-- <h1>{{ route.meta.title }}</h1> -->
 </template>
 
 <script setup>
