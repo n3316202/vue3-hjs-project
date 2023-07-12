@@ -5,11 +5,13 @@ const routes = [
   {
     path: '/',
     name: 'LottoMainView',
+    meta: { title: '로또' },
     component: () => import(/* webpackChunkName: "lottomainview" */ '../views/LottoMainView.vue')
   },
   {
     path: '/rsp',
     name: 'RspMainView',
+    meta: { title: '가위바위보' },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -18,18 +20,20 @@ const routes = [
   {
     path: '/job',
     name: 'JobMainView',
+    meta: { title: 'JobList' },
     component: () => import(/* webpackChunkName: "jobmainview" */ '../views/JobMainView.vue')
   },
   {
     path: '/board',
     name: 'BoardMainView',
+    meta: { title: '게시판' },
     component: () => import(/* webpackChunkName: "boardmainview" */ '../views/BoardMainView.vue')
-  },
-  {
-    path: '/board/:id',
-    name: 'BoardRead',
-    component: () => import(/* webpackChunkName: "boardread" */ '../components/board/BoardStoreRead.vue')
   }
+  // {
+  //   path: '/board/:id',
+  //   name: 'BoardRead',
+  //   component: () => import(/* webpackChunkName: "boardread" */ '../components/board/BoardStoreRead.vue')
+  // }
 ]
 
 // path: "/detail/:id",

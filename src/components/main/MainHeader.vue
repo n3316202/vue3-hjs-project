@@ -16,33 +16,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarScroll">
           <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px">
-            <li class="nav-item">
-              <!-- <a class="nav-link active" aria-current="page" href="#">로또</a> -->
-              <router-link class="nav-link active" aria-current="page" to="/">로또</router-link>
+            <li class="nav-item" v-for="(route, index) in router.options.routes" :key="index">
+              <router-link class="nav-link active" aria-current="page" :to="route.path">{{ route.meta.title }}</router-link>
             </li>
-            <li class="nav-item">
-              <!-- <a class="nav-link active" href="#">가위바위보</a> -->
-              <router-link class="nav-link active" aria-current="page" to="/rsp">가위바위보</router-link>
-            </li>
-            <li class="nav-item">
-              <!-- <a class="nav-link active" href="#">가위바위보</a> -->
-              <router-link class="nav-link active" aria-current="page" to="/job">JobList</router-link>
-            </li>
-            <li class="nav-item">
-              <!-- <a class="nav-link active" href="#">가위바위보</a> -->
-              <router-link class="nav-link active" aria-current="page" to="/board">게시판</router-link>
-            </li>
-            <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Link
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li> -->
             <li class="nav-item">
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
             </li>
@@ -55,10 +31,17 @@
       </div>
     </nav>
   </header>
+  <!-- <h1>{{ route.meta.title }}</h1> -->
 </template>
 
-<script>
-export default {}
+<script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+// router.options.routes.forEach((route, index) => {
+//   console.log(route.meta.title + ':' + index)
+// })
 </script>
 
 <style scoped></style>
