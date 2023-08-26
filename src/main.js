@@ -7,4 +7,11 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 
-createApp(App).use(store).use(router).use(sweetalert2).mount('#app')
+const app = createApp(App)
+
+app.use(store)
+app.use(router)
+app.use(sweetalert2)
+app.mount('#app')
+
+//createApp(App).use(store).use(router).use(sweetalert2).mount('#app')

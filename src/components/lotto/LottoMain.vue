@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row mt-sm-5">
-      <lotto-ball v-for="num in lottoSet" :key="num" :lottoNum="num"></lotto-ball>
+      <LottoBall v-for="num in lottoSet" :key="num" :lottoNum="num"></LottoBall>
     </div>
   </div>
 </template>

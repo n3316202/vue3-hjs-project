@@ -28,20 +28,33 @@ const routes = [
     name: 'BoardMainView',
     meta: { title: '게시판' },
     component: () => import(/* webpackChunkName: "boardmainview" */ '../views/BoardMainView.vue')
+  },
+  {
+    path: '/board/:id',
+    name: 'BoardRead',
+    component: () => import(/* webpackChunkName: "boardread" */ '../components/board/BoardStoreRead.vue')
   }
-  // {
-  //   path: '/board/:id',
-  //   name: 'BoardRead',
-  //   component: () => import(/* webpackChunkName: "boardread" */ '../components/board/BoardStoreRead.vue')
-  // }
 ]
 
-// path: "/detail/:id",
-// component: Detail,
+function contextPath() {
+  let count = window.location.pathname.replace('/', '').split('/').length - 1
+
+  //let count = '/hjs/'.replace('/', '').split('/').length - 1
+
+  console.log(window.location.pathname.replace('/', '').split('/') + '====' + count)
+
+  if (count > 0) {
+    routes.forEach(function (route) {
+      route.path = '/' + window.location.pathname.replace('/', '').split('/')[0] + route.path
+      console.log(route.path)
+    })
+  }
+  return routes
+}
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes: contextPath()
 })
 
 export default router

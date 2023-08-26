@@ -26,7 +26,7 @@
                   <td>{{ board.bid }}</td>
                   <td>{{ board.bname }}</td>
                   <td>
-                    <router-link :to="'/board/' + board.bid">{{ board.btitle }}</router-link>
+                    <router-link :to="boardLink + '/' + board.bid">{{ board.btitle }}</router-link>
                   </td>
                   <td>{{ board.bhit }}</td>
                   <td>{{ board.bdate }}</td>
@@ -97,6 +97,8 @@
 <script>
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+
 // import BoardDataService from '@/services/BoardDataService'
 
 export default {
@@ -106,6 +108,7 @@ export default {
       bcontent: '',
       bname: ''
     })
+    const route = useRoute()
 
     const writeModal = ref(null)
 
@@ -125,12 +128,17 @@ export default {
       return store.state.paging
     })
 
+    const boardLink = computed(() => {
+      console.log('boardLink()..')
+      console.log('params:' + route.path)
+      return route.path
+    })
+
     onMounted(() => {
       if (store.state.paging.startPage == undefined) {
         console.log("()'getAllBoards') 호출")
         store.dispatch('getAllBoards')
       }
-
       console.log('온마운트 호출')
     })
 
@@ -195,7 +203,7 @@ export default {
       return '/rboard/list2' + '?pageNum=' + i + '&' + 'amount=' + store.state.paging.cri.amount
     }
 
-    return { writeModal, board, writeBoard, paging, boards, getBoards, deleteBoard, makePrevious, makeNext, range, makeLink, onClickPaging }
+    return { boardLink, writeModal, board, writeBoard, paging, boards, getBoards, deleteBoard, makePrevious, makeNext, range, makeLink, onClickPaging }
   }
 }
 </script>

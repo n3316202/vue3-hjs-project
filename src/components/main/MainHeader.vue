@@ -17,7 +17,7 @@
         <div class="collapse navbar-collapse" id="navbarScroll">
           <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px">
             <li class="nav-item" v-for="(route, index) in router.options.routes" :key="index">
-              <router-link class="nav-link active" aria-current="page" :to="route.path">{{ route.meta.title }}</router-link>
+              <router-link class="nav-link active" aria-current="page" v-if="'meta' in route" :to="route.path">{{ route.meta.title }}</router-link>
             </li>
             <li class="nav-item">
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
@@ -37,10 +37,6 @@
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-
-// router.options.routes.forEach((route, index) => {
-//   console.log(route.meta.title + ':' + index)
-// })
 </script>
 
 <style scoped></style>

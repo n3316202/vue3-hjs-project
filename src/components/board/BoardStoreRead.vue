@@ -14,7 +14,7 @@
               </div>
               <div class="form-group">
                 <label> Board ID </label>
-                <input type="text" placeholder="bid" name="bid" class="form-control" v-model="state.board.bid" />
+                <input type="text" placeholder="bid" name="bid" class="form-control" v-model="state.board.bid" disabled readonly />
               </div>
               <div class="form-group">
                 <label> 이름 </label>
@@ -28,18 +28,9 @@
                 <label> 내용 </label>
                 <textarea placeholder="bcontent" name="bcontent" class="form-control" rows="5" v-model="state.board.bcontent" />
               </div>
-              <div class="mt-3">
+              <div class="mt-3 d-flex justify-content-between">
                 <button class="btn btn-success" @click="updateBoard">Update</button>
-                <button
-                  class="btn btn-danger"
-                  style="
-                     {
-                      marginleft: '10px';
-                    }
-                  "
-                >
-                  Cancel
-                </button>
+                <button class="btn btn-danger">Cancel</button>
               </div>
             </div>
           </div>
