@@ -72,7 +72,6 @@
 import { reactive, onMounted } from 'vue'
 import boardDataService from '@/services/BoardDataService'
 import Paging from '@/models/Paging'
-import Criteria from '@/models/Criteria'
 
 let state = reactive({
   boards: [],
