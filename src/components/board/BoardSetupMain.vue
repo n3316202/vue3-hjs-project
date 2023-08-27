@@ -50,7 +50,7 @@
                   <button v-if="paging.pre" class="page-link" :value="paging.makePrevious()" aria-label="Previous" @click="onClickPaging">&laquo;</button>
                 </li>
                 <li class="page-item" v-for="num in paging.range(paging.startPage, paging.endPage)" :key="num">
-                  <button :value="paging.makeLink(num)" class="page-link" @click="onClickPaging">{{ num }}</button>
+                  <button :value="paging.makeLink(num)" :class="isActive(num) ? 'active' : 'false'" class="page-link" @click="onClickPaging">{{ num }}</button>
                 </li>
 
                 <li class="page-item">
@@ -122,6 +122,11 @@ const deleteBoard = async (e) => {
   await boardStore.getPagingBoards(boardStore.paging.makeLink(boardStore.paging.cri.pageNum))
 }
 
+const isActive = (num) => {
+  if (boardStore.paging.cri.pageNum == num) return true
+
+  return false
+}
 //모달를 통한 글쓰기
 import { ref } from 'vue'
 import Modal from '@/components/modal/CustomModal.vue'

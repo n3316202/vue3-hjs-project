@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import boardDataService from '@/services/BoardDataService'
 import Paging from '@/models/Paging'
-import Board from '@/models/Board'
 
 const useBoardStore = defineStore('boardState', {
   state: () => ({
