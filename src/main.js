@@ -14,4 +14,6 @@ app.use(router)
 app.use(sweetalert2)
 app.mount('#app')
 
+app.config.globalProperties.$BASE_BOARD_URL = '/rboard/list2'
+
 //createApp(App).use(store).use(router).use(sweetalert2).mount('#app')
