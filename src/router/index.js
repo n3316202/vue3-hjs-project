@@ -32,7 +32,7 @@ const routes = [
   {
     path: '/board/:id',
     name: 'BoardRead',
-    component: () => import(/* webpackChunkName: "boardread" */ '../components/board/BoardStoreRead.vue')
+    component: () => import(/* webpackChunkName: "boardread" */ '../components/board/BoardSetupRead.vue')
   }
 ]
 

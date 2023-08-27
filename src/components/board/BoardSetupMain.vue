@@ -28,7 +28,7 @@
               </thead>
 
               <tbody>
-                <tr class="text-center" v-for="board in state.boards" :key="board.bid">
+                <tr class="text-center" v-for="board in boards" :key="board.bid">
                   <td>{{ board.bid }}</td>
                   <td>{{ board.bname }}</td>
                   <td>
@@ -47,16 +47,14 @@
             <nav aria-label="Page navigation example">
               <ul class="pagination">
                 <li class="page-item">
-                  <button v-if="state.paging.pre" class="page-link" :value="state.paging.makePrevious()" aria-label="Previous" @click="onClickPaging">
-                    &laquo;
-                  </button>
+                  <button v-if="paging.pre" class="page-link" :value="paging.makePrevious()" aria-label="Previous" @click="onClickPaging">&laquo;</button>
                 </li>
-                <li class="page-item" v-for="num in state.paging.range(state.paging.startPage, state.paging.endPage)" :key="num">
-                  <button :value="state.paging.makeLink(num)" class="page-link" @click="onClickPaging">{{ num }}</button>
+                <li class="page-item" v-for="num in paging.range(paging.startPage, paging.endPage)" :key="num">
+                  <button :value="paging.makeLink(num)" class="page-link" @click="onClickPaging">{{ num }}</button>
                 </li>
 
                 <li class="page-item">
-                  <button v-if="state.paging.next" class="page-link" :value="state.paging.makeNext()" aria-label="Next" @click="onClickPaging">&raquo;</button>
+                  <button v-if="paging.next" class="page-link" :value="paging.makeNext()" aria-label="Next" @click="onClickPaging">&raquo;</button>
                 </li>
               </ul>
             </nav>
@@ -96,66 +94,33 @@
 <script setup>
 import { reactive, onMounted } from 'vue'
 import boardDataService from '@/services/BoardDataService'
-import Paging from '@/models/Paging'
+import useBoardStore from '@/stores/BoardStore'
+import { storeToRefs } from 'pinia'
 
-let state = reactive({
-  boards: [],
-  paging: new Paging()
+const boardStore = useBoardStore()
+const { boards, paging } = storeToRefs(boardStore)
+
+onMounted(async () => {
+  console.log('셋업 메인')
+
+  //await boardStore.getBoards()
+  await boardStore.getPagingBoards(boardStore.paging.makeLink(boardStore.paging.cri.pageNum))
 })
-
-const getBoards = () => {
-  console.log('getBoards =================')
-
-  boardDataService
-    .getPagingList()
-    .then((response) => {
-      state.boards = response.data.boards
-
-      state.paging = new Paging(response.data.page)
-      console.log(response.data.boards)
-      console.log(state.paging)
-    })
-    .catch((e) => {
-      console.log(e)
-    })
-}
-
-const deleteBoard = (e) => {
-  console.log('deleteBoard()===============')
-  boardDataService
-    .remove(e.target.value)
-    .then((response) => {
-      console.log(response.data)
-      //삭제후 화면 업데이트
-      e.target.value = state.paging.makeLink(state.paging.cri.pageNum)
-      onClickPaging(e)
-    })
-    .catch((e) => {
-      console.log(e)
-    })
-}
 
 const onClickPaging = (e) => {
-  const splits = String(e.target.value).split('?')
-  console.log(splits)
-
-  boardDataService
-    .getPagingList(splits[0], '?' + splits[1])
-    .then((response) => {
-      state.boards = response.data.boards
-      //state.paging = response.data.page
-      state.paging = new Paging(response.data.page)
-      console.log(response.data.boards)
-      console.log(state.paging)
-    })
-    .catch((e) => {
-      console.log(e)
-    })
+  const eventTarget = e.target
+  console.log(eventTarget.value)
+  boardStore.getPagingBoards(eventTarget.value)
 }
 
-onMounted(() => {
-  getBoards()
-})
+const deleteBoard = async (e) => {
+  const eventTarget = e.target
+  console.log(eventTarget.value)
+
+  //삭제후 다시 업데이트를 위함
+  await boardStore.deleteBoard(eventTarget.value)
+  await boardStore.getPagingBoards(boardStore.paging.makeLink(boardStore.paging.cri.pageNum))
+}
 
 //모달를 통한 글쓰기
 import { ref } from 'vue'
@@ -182,7 +147,7 @@ async function saveChanges() {
     .write(board)
     .then((response) => {
       //입력후 처음으로
-      getBoards()
+      boardStore.getPagingBoards(boardStore.paging.makeLink(boardStore.paging.cri.pageNum))
     })
     .catch((e) => {
       console.log(e)
