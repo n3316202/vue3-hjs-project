@@ -61,6 +61,31 @@
               </ul>
             </nav>
           </div>
+          <hr />
+          <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-primary" @click="launchModal">글쓰기</button>
+          </div>
+          <!-- 모달 스타트 -->
+          <Modal v-model="dialogVisible" title="글쓰기">
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">작성자:</label>
+              <input type="text" class="form-control" v-model="board.bname" />
+            </div>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">제목:</label>
+              <input type="text" class="form-control" v-model="board.btitle" />
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">내용:</label>
+              <textarea class="form-control" rows="8" v-model="board.bcontent"></textarea>
+            </div>
+
+            <template #footer>
+              <button type="button" class="btn btn-primary" @click="saveChanges">글쓰기</button>
+              <button type="button" class="btn btn-secondary" @click="closeModal">취소</button>
+            </template>
+          </Modal>
+          <!-- 모달 끝 -->
         </div>
       </div>
     </div>
@@ -85,7 +110,7 @@ const getBoards = () => {
     .getPagingList()
     .then((response) => {
       state.boards = response.data.boards
-      //state.paging = response.data.page
+
       state.paging = new Paging(response.data.page)
       console.log(response.data.boards)
       console.log(state.paging)
@@ -94,10 +119,6 @@ const getBoards = () => {
       console.log(e)
     })
 }
-
-onMounted(() => {
-  getBoards()
-})
 
 const deleteBoard = (e) => {
   console.log('deleteBoard()===============')
@@ -130,6 +151,48 @@ const onClickPaging = (e) => {
     .catch((e) => {
       console.log(e)
     })
+}
+
+onMounted(() => {
+  getBoards()
+})
+
+//모달를 통한 글쓰기
+import { ref } from 'vue'
+import Modal from '@/components/modal/CustomModal.vue'
+
+const board = reactive({
+  btitle: '',
+  bcontent: '',
+  bname: ''
+})
+
+const dialogVisible = ref(false)
+
+function launchModal() {
+  dialogVisible.value = true
+}
+
+function closeModal() {
+  dialogVisible.value = false
+}
+
+async function saveChanges() {
+  await boardDataService
+    .write(board)
+    .then((response) => {
+      //입력후 처음으로
+      getBoards()
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+
+  board.btitle = ''
+  board.bcontent = ''
+  board.bname = ''
+
+  closeModal()
 }
 </script>
 
